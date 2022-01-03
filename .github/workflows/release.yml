@@ -19,12 +19,12 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v2
-      - name: Upload Release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: "v0.4.0-dev"
-          commit: ${{ github.sha }}
-          name: "Development Release"
-          body: "Testing release CI workflow"
-          artifacts: "./dist/mupen64plus-next-dev.zip"
-          token: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Upload Release
+#         uses: ncipollo/release-action@v1
+#         with:
+#           tag: "v0.4.0-dev"
+#           commit: ${{ github.sha }}
+#           name: "Development Release"
+#           body: "Testing release CI workflow"
+#           artifacts: "./dist/mupen64plus-next-dev.zip"
+#           token: ${{ secrets.GITHUB_TOKEN }}
