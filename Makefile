@@ -350,7 +350,7 @@ else ifneq (,$(findstring RK,$(platform)))
 
 # OS X
 else ifneq (,$(findstring osx,$(platform)))
-   TARGET := ./dist/$(TARGET_NAME)_libretro.dylib
+   TARGET := $(TARGET_NAME)_libretro.dylib
    LDFLAGS += -dynamiclib
 
    OSXVER = $(shell sw_vers -productVersion | cut -d. -f 2)
@@ -603,6 +603,6 @@ $(AWK_DEST_DIR)/asm_defines_nasm.h: $(ASM_DEFINES_OBJ)
 clean:
 	find . -name "*.o" -type f -delete
 	find . -name "*.d" -type f -delete
-	rm -f $(TARGET)
+	#rm -f $(TARGET)
 
 .PHONY: clean
