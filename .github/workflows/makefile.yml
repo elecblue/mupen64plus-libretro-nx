@@ -13,7 +13,9 @@ jobs:
     runs-on: macos-latest
 
     steps:
+    - uses: ilammy/setup-nasm@v1
     - uses: actions/checkout@v2
+    - uses: mikehardy/buildcache-action@v1
     
     #- name: configure
     #  run: ./configure
