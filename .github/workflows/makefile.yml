@@ -1,6 +1,7 @@
-name: Development Build CI
+name: Build (Dev)
 
 on:
+  # Remember to change this to only create new releases after PRs or something more significant than a push.
   push:
     branches: [ develop ]
   pull_request:
@@ -31,9 +32,3 @@ jobs:
         path: './mupen64plus_next_libretro.dylib'
         filename: 'mupen64plus-next-dev.zip'
         exclusions: '*.git* /*node_modules/* .editorconfig'
-        
-    - name: Upload Release
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "./dist/mupen64plus-next-dev.zip"
-        token: ${{ secrets.GITHUB_TOKEN }}
