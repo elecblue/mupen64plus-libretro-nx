@@ -350,7 +350,7 @@ else ifneq (,$(findstring RK,$(platform)))
 
 # OS X
 else ifneq (,$(findstring osx,$(platform)))
-   TARGET := dist/$(TARGET_NAME)_libretro.dylib
+   TARGET := ./dist/$(TARGET_NAME)_libretro.dylib
    LDFLAGS += -dynamiclib
 
    OSXVER = $(shell sw_vers -productVersion | cut -d. -f 2)
