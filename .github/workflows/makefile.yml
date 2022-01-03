@@ -12,18 +12,18 @@ jobs:
   build:
     name: macOS (Dev Build)
     runs-on: macos-latest
-
     steps:
     - uses: ilammy/setup-nasm@v1
     - uses: actions/checkout@v2
     - uses: mikehardy/buildcache-action@v1
-    
     - name: Clean up old binaries
       run: make clean
-      
     - name: Run make
       run: make
-      
+  compress:
+    needs: build
+    runs-on: macos-latest
+    steps:
     - name: Compress compiled binary
       uses: thedoctor0/zip-release@master
       with:
@@ -32,3 +32,16 @@ jobs:
         path: './mupen64plus_next_libretro.dylib'
         filename: 'mupen64plus-next-dev.zip'
         exclusions: '*.git* /*node_modules/* .editorconfig'
+  release:
+    needs: compress
+    runs-on: macos-latest
+    steps:
+      - name: Upload Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "v0.4.0-dev"
+          commit: ${{ github.sha }}
+          name: "Development Release"
+          body: "Testing release CI workflow"
+          artifacts: "mupen64plus-next-dev.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
