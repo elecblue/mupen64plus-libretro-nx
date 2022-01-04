@@ -4,63 +4,44 @@ on:
   # Remember to change this to only create new releases after PRs or something more significant than a push.
   push:
     tags:
-      - v**
-    branches: [ develop ]
+      - '*'
+#    branches: [ develop ]
 #   pull_request:
 #     branches: [ develop ]
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build (Dev)
+  build_release:
+    name: build_release
     runs-on: macos-latest
-    steps:
-    - uses: ilammy/setup-nasm@v1
-    - uses: actions/checkout@master
-      with:
-        fetch-depth: 0
-    # Cache output files in dist directory
-    - name: Setup cache
-      uses: actions/cache@v2
-      with:
-        path: test/dist/cache
-        key: ${{ runner.os }}-makefile-${{ github.sha }}-${{ hashFiles('**/makefile') }}
-        restore-keys: |
-          ${{ runner.os }}-makefile-
-    # This workflow change updated time of files was not changed.
-    # You can control behavior by setting reference, or commit id.
-    # See below more infomation.
-    - name: Change updated time
-      uses: flat35hd99/cache-make@v1.0.0
-#     - uses: mikehardy/buildcache-action@v1
-#     - name: Clean up
-#       run: make clean
-    - name: Run make
-      run: make
-#   compress:
-#     needs: build
-#     name: Compress Build Results
-#     runs-on: macos-latest
-#     steps:
-#     - name: Zip compiled binary
-#       uses: thedoctor0/zip-release@master
-#       with:
-#         type: 'zip'
-# #         directory: './dist'
-#         path: 'mupen64plus_next_libretro.dylib'
-#         filename: 'mupen64plus-next-dev.zip'
-#         exclusions: '*.git* .editorconfig'
-#   release:
-#     needs: compress
-#     name: Publish release
-#     runs-on: macos-latest
-#     steps:
-#       - name: Upload Release
-#         uses: ncipollo/release-action@v1
-#         with:
-#           tag: "v0.4.0-dev"
-#           commit: ${{ github.sha }}
-# #           name: "Development Release"
-#           body: "Testing release CI workflow"
-#           artifacts: "mupen64plus-next-dev.zip"
-#           token: ${{ secrets.GITHUB_TOKEN }}
+    steps: 
+      - name: Setup NASM
+        uses: ilammy/setup-nasm@v1
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Spin up build cache
+        uses: mikehardy/buildcache-action@v1
+      - name: Clean up old binaries
+        run: make clean
+      - name: Build new binaries
+        run: make
+      - name: Create release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ github.ref }}
+          tag_name: ${{ github.ref }}
+          body: 'Testing release CI'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Upload release artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./mupen64plus_next_libretro.dylib
+          asset_name: mupen64plus_next_libretro.dylib
+          asset_content_type: application/x-mach-binary
