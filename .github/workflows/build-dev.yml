@@ -3,10 +3,12 @@ name: Build (Dev)
 on:
   # Remember to change this to only create new releases after PRs or something more significant than a push.
   push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
-  workflow_dispatch:
+    tags:
+      - '*'
+#     branches: [ develop ]
+#   pull_request:
+#     branches: [ develop ]
+#   workflow_dispatch:
 
 jobs:
   build:
