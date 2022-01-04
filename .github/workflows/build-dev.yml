@@ -17,9 +17,22 @@ jobs:
     steps:
     - uses: ilammy/setup-nasm@v1
     - uses: actions/checkout@master
+    # Cache output files in dist directory
+    - name: Setup cache
+      uses: actions/cache@v2
+      with:
+        path: test/dist/cache
+        key: ${{ runner.os }}-makefile-${{ github.sha }}-${{ hashFiles('**/makefile') }}
+        restore-keys: |
+          ${{ runner.os }}-makefile-
+    # This workflow change updated time of files was not changed.
+    # You can control behavior by setting reference, or commit id.
+    # See below more infomation.
+    - name: Change updated time
+      uses: flat35hd99/cache-make@v1.0.0
 #     - uses: mikehardy/buildcache-action@v1
-    - name: Clean up
-      run: make clean
+#     - name: Clean up
+#       run: make clean
     - name: Run make
       run: make
 #   compress:
