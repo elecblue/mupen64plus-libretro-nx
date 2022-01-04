@@ -4,11 +4,11 @@ on:
   # Remember to change this to only create new releases after PRs or something more significant than a push.
   push:
     tags:
-      - '*'
-#     branches: [ develop ]
+      - v**
+    branches: [ develop ]
 #   pull_request:
 #     branches: [ develop ]
-#   workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -17,6 +17,8 @@ jobs:
     steps:
     - uses: ilammy/setup-nasm@v1
     - uses: actions/checkout@master
+      with:
+        fetch-depth: 0
     # Cache output files in dist directory
     - name: Setup cache
       uses: actions/cache@v2
