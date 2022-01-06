@@ -1435,7 +1435,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
             {"AlwaysIgnoreTLB", "Always Ignore TLB Exceptions"},
             { NULL, NULL },
         },
-        "False"
+        "AlwaysIgnoreTLB"
     },
     {
         CORE_NAME "-CountPerOp",
