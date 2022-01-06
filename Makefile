@@ -308,7 +308,7 @@ else ifneq (,$(findstring odroid,$(platform)))
 #
 
 else ifneq (,$(findstring osx,$(platform)))
-   TARGET 		:= $(TARGET_NAME)_libretro.dylib
+   TARGET 		:= "${TARGET_NAME}_libretro.dylib"
    LDFLAGS 		+= -dynamiclib
    OSXVER 	 	 = $(shell sw_vers -productVersion | cut -d. -f 2)
    OSX_LT_MAVERICKS 	 = `(( $(OSXVER) <= 9)) && echo "YES"`
