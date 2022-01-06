@@ -14,3 +14,4 @@ asm_defines_gas.h
 linker.list
 dist/.DS_Store
 .DS_Store
+Makefile-original
