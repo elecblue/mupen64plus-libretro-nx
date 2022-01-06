@@ -18,8 +18,8 @@ jobs:
         uses: actions/checkout@master
       - name: Spin up build cache             # Init cache to persist previous build
         uses: mikehardy/buildcache-action@v1
-      - name: Clean up old binaries           # Clean up previous build trash
-        run: make clean
+#       - name: Clean up old binaries           # Clean up previous build trash
+#         run: make clean
       - name: Build new binary                # Make macOS binary (.dylib)
         run: make
       - name: Create release                  # Create a GitHub release for new build
@@ -30,7 +30,7 @@ jobs:
           prerelease: false
           release_name: ${{ github.ref }}
           tag_name: ${{ github.ref }}
-          bodyFile: 'RELEASE.md'
+          body_file: 'RELEASE.md'
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Upload release artifact         # Upload built binary to created release
