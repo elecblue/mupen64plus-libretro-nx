@@ -5,9 +5,6 @@ on:
   push:
     tags:
       - '*'
-#    branches: [ develop ]
-#   pull_request:
-#     branches: [ develop ]
   workflow_dispatch:
 
 jobs:
@@ -15,17 +12,17 @@ jobs:
     name: build_release
     runs-on: macos-latest
     steps: 
-      - name: Setup NASM
+      - name: Setup NASM                      # Load required build tool nasm
         uses: ilammy/setup-nasm@v1
-      - name: Checkout
+      - name: Checkout                        # Checkout repo before doing the rest
         uses: actions/checkout@master
-      - name: Spin up build cache
+      - name: Spin up build cache             # Init cache to persist previous build
         uses: mikehardy/buildcache-action@v1
-      - name: Clean up old binaries
+      - name: Clean up old binaries           # Clean up previous build trash
         run: make clean
-      - name: Build new binaries
+      - name: Build new binary                # Make macOS binary (.dylib)
         run: make
-      - name: Create release
+      - name: Create release                  # Create a GitHub release for new build
         uses: actions/create-release@v1
         id: create_release
         with:
@@ -33,10 +30,10 @@ jobs:
           prerelease: false
           release_name: ${{ github.ref }}
           tag_name: ${{ github.ref }}
-          body: 'Testing release CI'
+          bodyFile: 'RELEASE.md'
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - name: Upload release artifact
+      - name: Upload release artifact         # Upload built binary to created release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
