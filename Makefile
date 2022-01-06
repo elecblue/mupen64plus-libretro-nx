@@ -601,8 +601,8 @@ $(AWK_DEST_DIR)/asm_defines_nasm.h: $(ASM_DEFINES_OBJ)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	#find . -name "*.o" -type f -delete
-	#find . -name "*.d" -type f -delete
+	find . -name "*.o" -type f -delete
+	find . -name "*.d" -type f -delete
 	rm -f $(TARGET)
 
 .PHONY: clean

@@ -13,3 +13,4 @@ asm_defines_gas.h
 .vscode/c_cpp_properties.json
 linker.list
 dist/.DS_Store
+.DS_Store
