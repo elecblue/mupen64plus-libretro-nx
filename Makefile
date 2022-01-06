@@ -1,4 +1,4 @@
-DEBUG 			 = 0
+DEBUG = 0
 FORCE_GLES 		?= 0
 FORCE_GLES3 		?= 0
 LLE 			?= 0
@@ -68,16 +68,22 @@ WITH_DYNAREC ?= $(ARCH)
 PIC = 1
 
 # Apply proper value to WITH_DYNAREC flag
-ifeq ($(ARCH), $(filter $(ARCH), i386 i686 BePC))	# On 32bit Haiku, the output of "uname -m" is "BePC"
+# On 32bit Haiku, the output of "uname -m" is "BePC"
+ifeq ($(ARCH), $(filter $(ARCH), i386 i686 BePC))
    WITH_DYNAREC = x86
    PIC = 0
 else ifeq ($(ARCH), $(filter $(ARCH), arm))
    WITH_DYNAREC = arm
 endif
 
-TARGET_NAME 	:= mupen64plus_next	# Prefix of compiled binary (<TARGET_NAME>_libretro.<extension>)
-CC_AS 		?= $(CC)		# Name of cc binary in PATH
-NASM  		?= nasm			# Name of nasm binary in PATH
+# Prefix of compiled binary (<TARGET_NAME>_libretro.<extension>)
+TARGET_NAME 	:= mupen64plus_next
+
+# Name of cc binary in PATH
+CC_AS 		?= $(CC)
+
+# Name of nasm binary in PATH
+NASM  		?= nasm
 
 # Obtain GIT version used by build toolchain 
 GIT_VERSION ?= " $(shell git rev-parse --short HEAD || echo unknown)"
